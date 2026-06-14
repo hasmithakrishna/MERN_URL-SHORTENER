@@ -7,10 +7,21 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST"],
-}));
+const corsOptions = {
+    origin: (origin, callback) => {
+        const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000', 'http://localhost:5173'];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/", urlRoutes);
