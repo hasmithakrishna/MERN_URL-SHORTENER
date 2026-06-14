@@ -14,8 +14,11 @@ function App() {
     if (!url) return;
 
     try {
+      let inputUrl = url.trim();
+      if (!/^https?:\/\//i.test(inputUrl)) inputUrl = `https://${inputUrl}`;
+
       const res = await axios.post(`${API_BASE_URL}/shorten`, {
-        originalUrl: url,
+        originalUrl: inputUrl,
       });
 
       const newShortUrl = res.data.shortUrl;

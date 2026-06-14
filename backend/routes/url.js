@@ -3,6 +3,9 @@ import Url from '../models/Url.js';
 import { nanoid } from 'nanoid';
 
 const router = express.Router();
+
+router.get("/health", (req, res) => res.status(200).send("ok"));
+
 //Shortening Route
 router.post("/shorten", async (req, res) => {
   try {
